@@ -5,6 +5,7 @@ Gabriel Antonio
 Guilherme Laurindo
 Gustavo S. Daniel
 Lucas Campos
+Miguel Luperi
 
 Descrição do Serviço
 O Serviço de Eventos é o segundo microserviço do projeto DSMeventos, responsável pelo gerenciamento completo de eventos da plataforma.
@@ -29,3 +30,4 @@ MongoDB (via Mongoose)
 Prisma (não utilizado diretamente, mas parte do escopo do projeto)
 swagger-ui-express
 swagger-jsdoc
+
