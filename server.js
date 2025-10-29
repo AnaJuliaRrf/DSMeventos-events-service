@@ -1,36 +1,22 @@
-// Importa o dotenv para carregar as variáveis de ambiente (como a JWT_SECRET e a PORT)
-require('dotenv').config();
+import express from "express";
+import dotenv from "dotenv";
+import mongoose from "mongoose";
+import eventRoutes from "./src/routes/eventRoutes.js";
 
-// Importa a instância do Express configurada em src/app.js
-const app = require('./src/app');
+dotenv.config();
 
-// Importa a função de conexão com o banco de dados
-const connectDB = require('./src/config/db');
+const app = express();
+app.use(express.json());
 
-// Define a porta, usando a variável de ambiente PORT ou 3000 como fallback
-const PORT = process.env.PORT || 3000;
+// Conexão com o banco
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => console.log("✅ Conectado ao MongoDB"))
+  .catch((err) => console.error("❌ Erro ao conectar ao MongoDB:", err));
 
-/**
- * Função principal para conectar ao banco de dados e iniciar o servidor.
- */
-async function startServer() {
-    try {
-        // Conecta ao MongoDB
-        await connectDB();
+// Rotas principais
+app.use("/events", eventRoutes);
 
-        // Inicia o servidor Express
-        app.listen(PORT, () => {
-            console.log(`\n======================================================`);
-            console.log(`✅ DSMeventos Events Service rodando na porta: ${PORT}`);
-            console.log(`📚 Documentação (Swagger): http://localhost:${PORT}/docs`);
-            console.log(`======================================================\n`);
-        });
-    } catch (error) {
-        console.error('Erro ao iniciar o servidor:', error.message);
-        // Em caso de erro grave, encerra o processo
-        process.exit(1);
-    }
-}
-
-// Iniciar
-startServer();
+app.listen(process.env.PORT, () => {
+  console.log(` Servidor rodando na porta ${process.env.PORT}`);
+});
