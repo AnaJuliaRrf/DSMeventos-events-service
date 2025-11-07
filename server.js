@@ -14,9 +14,15 @@ mongoose
   .then(() => console.log("✅ Conectado ao MongoDB"))
   .catch((err) => console.error("❌ Erro ao conectar ao MongoDB:", err));
 
+// Rota raiz (evita Cannot GET /)
+app.get("/", (req, res) => {
+  res.send("API DSMEventos rodando com sucesso ✅");
+});
+
 // Rotas principais
 app.use("/events", eventRoutes);
 
-app.listen(process.env.PORT, () => {
-  console.log(` Servidor rodando na porta ${process.env.PORT}`);
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor rodando na porta ${PORT}`);
 });
